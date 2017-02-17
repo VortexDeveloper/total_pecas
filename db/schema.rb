@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217152213) do
+ActiveRecord::Schema.define(version: 20170217165146) do
 
   create_table "accessories", force: :cascade do |t|
     t.string   "name"
@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 20170217152213) do
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
     t.datetime "photo_updated_at"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_advertisements_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -52,6 +54,15 @@ ActiveRecord::Schema.define(version: 20170217152213) do
     t.datetime "logo_updated_at"
     t.integer  "user_id"
     t.index ["user_id"], name: "index_companies_on_user_id"
+  end
+
+  create_table "interests", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "advertisement_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["advertisement_id"], name: "index_interests_on_advertisement_id"
+    t.index ["user_id"], name: "index_interests_on_user_id"
   end
 
   create_table "kinds", force: :cascade do |t|

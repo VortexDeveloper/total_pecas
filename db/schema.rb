@@ -10,7 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170216201339) do
+ActiveRecord::Schema.define(version: 20170217152213) do
+
+  create_table "accessories", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "advertisements", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.float    "price"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+  end
+
+  create_table "categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "father_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["father_id"], name: "index_categories_on_father_id"
+  end
 
   create_table "companies", force: :cascade do |t|
     t.string   "cnpj"
@@ -28,6 +54,12 @@ ActiveRecord::Schema.define(version: 20170216201339) do
     t.index ["user_id"], name: "index_companies_on_user_id"
   end
 
+  create_table "kinds", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "packages", force: :cascade do |t|
     t.string   "name"
     t.integer  "advert"
@@ -39,6 +71,16 @@ ActiveRecord::Schema.define(version: 20170216201339) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.index ["user_id"], name: "index_packages_on_user_id"
+  end
+
+  create_table "parts", force: :cascade do |t|
+    t.string   "brand"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "product_id"
+    t.integer  "category_id"
+    t.index ["category_id"], name: "index_parts_on_category_id"
+    t.index ["product_id"], name: "index_parts_on_product_id"
   end
 
   create_table "phone_books", force: :cascade do |t|
@@ -57,6 +99,31 @@ ActiveRecord::Schema.define(version: 20170216201339) do
     t.string   "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.integer  "status"
+    t.integer  "type"
+    t.integer  "advertisement_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["advertisement_id"], name: "index_products_on_advertisement_id"
+  end
+
+  create_table "service_kinds", force: :cascade do |t|
+    t.integer  "service_id"
+    t.integer  "kind_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["kind_id"], name: "index_service_kinds_on_kind_id"
+    t.index ["service_id"], name: "index_service_kinds_on_service_id"
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.integer  "advertisement_id"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+    t.index ["advertisement_id"], name: "index_services_on_advertisement_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,6 +148,34 @@ ActiveRecord::Schema.define(version: 20170216201339) do
     t.string   "cpf"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "vehicle_accessories", force: :cascade do |t|
+    t.integer  "vehicle_id"
+    t.integer  "accessory_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["accessory_id"], name: "index_vehicle_accessories_on_accessory_id"
+    t.index ["vehicle_id"], name: "index_vehicle_accessories_on_vehicle_id"
+  end
+
+  create_table "vehicle_parts", force: :cascade do |t|
+    t.integer  "vehicle_id"
+    t.integer  "part_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["part_id"], name: "index_vehicle_parts_on_part_id"
+    t.index ["vehicle_id"], name: "index_vehicle_parts_on_vehicle_id"
+  end
+
+  create_table "vehicles", force: :cascade do |t|
+    t.string   "year"
+    t.string   "automaker"
+    t.string   "model"
+    t.integer  "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_vehicles_on_product_id"
   end
 
 end

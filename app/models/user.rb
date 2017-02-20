@@ -17,4 +17,6 @@ class User < ApplicationRecord
 
   has_one :package
   has_one :company
+
+  validates :first_name, :last_name, :cpf, presence: true
 end

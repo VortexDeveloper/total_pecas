@@ -10,12 +10,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217200852) do
+ActiveRecord::Schema.define(version: 20170220145049) do
 
   create_table "accessories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "address_relations", force: :cascade do |t|
+    t.integer  "address_id"
+    t.integer  "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_address_relations_on_address_id"
+    t.index ["company_id"], name: "index_address_relations_on_company_id"
+  end
+
+  create_table "addresses", force: :cascade do |t|
+    t.string   "street"
+    t.string   "neighborhood"
+    t.string   "complement"
+    t.string   "zip_code"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
   end
 
   create_table "advertisements", force: :cascade do |t|
@@ -40,10 +58,17 @@ ActiveRecord::Schema.define(version: 20170217200852) do
     t.index ["father_id"], name: "index_categories_on_father_id"
   end
 
+  create_table "cities", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "address_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address_id"], name: "index_cities_on_address_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string   "cnpj"
     t.string   "social_name"
-    t.string   "address"
     t.string   "operating_hours"
     t.text     "description"
     t.datetime "created_at",        null: false
@@ -151,6 +176,15 @@ ActiveRecord::Schema.define(version: 20170217200852) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.index ["advertisement_id"], name: "index_services_on_advertisement_id"
+  end
+
+  create_table "states", force: :cascade do |t|
+    t.string   "name"
+    t.string   "abbreviation"
+    t.integer  "address_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["address_id"], name: "index_states_on_address_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,0 +1,43 @@
+<%= form_for(service, html: { :multipart => true }) do |f| %>
+  <% if service.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(service.errors.count, "error") %> prohibited this service from being saved:</h2>
+
+      <ul>
+      <% service.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= fields_for :user do |u| %>
+    <%= hidden_field_tag :id %>
+  <% end %>
+
+  <%= fields_for :advertisement do |a| %>
+    <div class="field">
+      <%= a.label :title %><br />
+      <%= a.text_field :title, value: @service.title %>
+    </div>
+
+    <div class="field">
+      <%= a.label :description %>
+      <%= a.text_area :description, value: @service.description %>
+    </div>
+
+    <div class="field">
+      <%= a.label :price %>
+      <%= a.text_field :price, value: @service.price %>
+    </div>
+
+    <div class="field">
+      <%= a.label :photo %>
+      <%= a.file_field :photo %>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

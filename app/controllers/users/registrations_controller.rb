@@ -60,11 +60,11 @@ before_action :configure_account_update_params, only: [:update]
 
   private
 
-  def sign_up_params
-    params.require(:user).permit(:first_name, :last_name, :cpf, :email, :password, :password_confirmation, :avatar)
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :cpf, :email, :password, :password_confirmation, :avatar])
   end
 
-  def account_update_params
-    params.require(:user).permit(:first_name, :last_name, :cpf, :email, :password, :password_confirmation, :current_password, :avatar)
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:first_name, :last_name, :cpf, :email, :password, :password_confirmation, :current_password, :avatar])
   end
 end
